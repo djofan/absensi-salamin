@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Student profile, presence status, and academic record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "className": { "type": "string" },
+        "dob": { "type": "string" },
+        "studentId": { "type": "string" },
+        "section": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "isPresent": { "type": "boolean" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "parentName": { "type": "string" },
+        "address": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "studentId", "isPresent"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "School announcement and notice",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "time": { "type": "string" },
+        "type": { "type": "string" },
+        "unread": { "type": "boolean" }
+      },
+      "required": ["id", "title", "message"]
+    }
+  },
+  "firestore": {
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Student roster, profiles, and attendance records"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "School and class notifications"
+    }
+  }
+}

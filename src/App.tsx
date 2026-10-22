@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { INITIAL_STUDENTS } from './data/mockData';
 import { Student } from './types';
 import { ClassScreen } from './components/ClassScreen';
@@ -7,6 +7,12 @@ import { ResultModal } from './components/ResultModal';
 import { NotificationsModal } from './components/NotificationsModal';
 import { InstallButton } from './components/InstallButton';
 import {
+  seedInitialStudentsIfEmpty,
+  subscribeStudents,
+  updateStudentPresence,
+  updateAllStudentsPresence,
+} from './services/studentService';
+import {
   Smartphone,
   Layers,
   Sparkles,
@@ -14,6 +20,7 @@ import {
   Users,
   RotateCcw,
   BookOpen,
+  Cloud,
 } from 'lucide-react';
 
 export default function App() {
@@ -23,6 +30,26 @@ export default function App() {
   const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [isNotifOpen, setIsNotifOpen] = useState<boolean>(false);
   const [activeClassTab, setActiveClassTab] = useState<'feeds' | 'results' | 'attendance'>('attendance');
+  const [isCloudConnected, setIsCloudConnected] = useState<boolean>(false);
+
+  // Sync with Firebase Firestore
+  useEffect(() => {
+    seedInitialStudentsIfEmpty().then(() => setIsCloudConnected(true));
+
+    const unsubscribe = subscribeStudents(
+      (data) => {
+        if (data && data.length > 0) {
+          setStudents(data);
+          setIsCloudConnected(true);
+        }
+      },
+      () => {
+        setIsCloudConnected(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   const selectedStudent =
     students.find((s) => s.id === selectedStudentId) || students[0];
@@ -30,14 +57,21 @@ export default function App() {
   // Toggle present/absent for a student
   const handleToggleAttendance = (studentId: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    const current = students.find((s) => s.id === studentId);
+    const nextState = current ? !current.isPresent : true;
+
+    // Optimistic state
     setStudents((prev) =>
       prev.map((s) => {
         if (s.id === studentId) {
-          return { ...s, isPresent: !s.isPresent };
+          return { ...s, isPresent: nextState };
         }
         return s;
       })
     );
+
+    // Sync to Firestore
+    updateStudentPresence(studentId, nextState);
   };
 
   const handleSelectStudent = (student: Student) => {
@@ -47,12 +81,14 @@ export default function App() {
   // Mark all present shortcut
   const handleMarkAll = (status: boolean) => {
     setStudents((prev) => prev.map((s) => ({ ...s, isPresent: status })));
+    updateAllStudentsPresence(students, status);
   };
 
   // Reset demo data
   const handleReset = () => {
     setStudents(INITIAL_STUDENTS);
     setSelectedStudentId('student-sam');
+    updateAllStudentsPresence(INITIAL_STUDENTS, true);
   };
 
   const presentCount = students.filter((s) => s.isPresent).length;
@@ -125,6 +161,17 @@ export default function App() {
                 </span>
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">
                   Kelas 12-B
+                </span>
+                <span
+                  title={isCloudConnected ? "Database Firebase Firestore Terhubung & Sinkron Realtime" : "Menghubungkan ke Firebase..."}
+                  className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md transition-colors ${
+                    isCloudConnected
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      : 'bg-amber-50 text-amber-700 border border-amber-200'
+                  }`}
+                >
+                  <Cloud className="w-3 h-3" />
+                  <span>{isCloudConnected ? 'Firebase Aktif' : 'Menghubungkan...'}</span>
                 </span>
               </div>
               <p className="text-xs text-slate-500 hidden sm:block">
