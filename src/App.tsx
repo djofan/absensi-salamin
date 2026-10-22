@@ -5,6 +5,7 @@ import { ClassScreen } from './components/ClassScreen';
 import { StudentDetailsScreen } from './components/StudentDetailsScreen';
 import { ResultModal } from './components/ResultModal';
 import { NotificationsModal } from './components/NotificationsModal';
+import { InstallButton } from './components/InstallButton';
 import {
   Smartphone,
   Layers,
@@ -120,14 +121,14 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-slate-900 tracking-tight text-sm md:text-base">
-                  St. Mary Ser Sec School
+                  Ponpes Salamatul Insan
                 </span>
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">
-                  Class 12-B
+                  Kelas 12-B
                 </span>
               </div>
               <p className="text-xs text-slate-500 hidden sm:block">
-                Interactive Attendance & Academic Record Portal
+                Portal Presensi & Rapor Santri Digital
               </p>
             </div>
           </div>
@@ -146,6 +147,9 @@ export default function App() {
                 {presentCount} Present ({attendanceRate}%)
               </span>
             </div>
+
+            {/* PWA Install Button (Android Chrome) */}
+            <InstallButton />
 
             {/* Quick bulk actions */}
             <div className="hidden sm:flex items-center gap-1.5">
@@ -265,7 +269,7 @@ export default function App() {
       <footer className="relative z-20 py-3 px-6 text-center text-xs text-slate-500 border-t border-slate-200/60 bg-white/40 backdrop-blur-xs">
         <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2 text-[11px]">
           <span>
-            Design Reproduction: St. Mary Senior Secondary School 12th Standard Attendance & Exam Portal
+            Sistem Presensi & Rapor Santri Kelas 12 - Ponpes Salamatul Insan
           </span>
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 text-slate-700 font-medium">

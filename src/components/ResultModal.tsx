@@ -34,7 +34,7 @@ export const ResultModal: React.FC<ResultModalProps> = ({ student, isOpen, onClo
             </div>
             <div>
               <span className="text-[11px] font-semibold tracking-wider uppercase text-orange-100">
-                St. Mary Senior Secondary School
+                Ponpes Salamatul Insan
               </span>
               <h2 className="text-xl font-extrabold tracking-tight">Academic Report Card</h2>
               <p className="text-xs text-orange-100/90">{report.term} · {report.academicYear}</p>

@@ -89,7 +89,7 @@ export const ClassIllustrationHeader: React.FC = () => {
           12th Standard
         </h2>
         <p className="text-xs font-medium text-sky-100/90 mt-1 drop-shadow-sm tracking-wide">
-          St. Marry Ser Sec School
+          Ponpes Salamatul Insan
         </p>
       </div>
     </div>

@@ -23,8 +23,8 @@ export const NotificationsModal: React.FC<NotificationsModalProps> = ({ isOpen, 
               <Bell className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-slate-800">Class 12-B Notifications</h3>
-              <p className="text-[11px] text-slate-500">St. Mary Senior Secondary</p>
+              <h3 className="text-sm font-bold text-slate-800">Notifikasi Kelas 12-B</h3>
+              <p className="text-[11px] text-slate-500">Ponpes Salamatul Insan</p>
             </div>
           </div>
           <button
