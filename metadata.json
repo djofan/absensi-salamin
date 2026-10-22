@@ -1,0 +1,6 @@
+{
+  "name": "EduTrack - School Class & Student Attendance Portal",
+  "description": "Modern school management app featuring 12th standard class roster, interactive student attendance tracking, calendar logs, and academic performance results.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
